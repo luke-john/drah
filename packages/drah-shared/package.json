@@ -1,0 +1,29 @@
+{
+  "name": "drah-shared",
+  "version": "0.0.0",
+  "description": "shared types for use in drahs packages",
+  "main": "build/index.js",
+  "scripts": {
+    "typecheck": "tsc -p . --noEmit",
+    "build": "tsc -p ./tsconfig.json",
+    "build:watch": "npm run build -- --watch",
+    "format:check": "prettier --check \"src/**/*.{ts, tsx}\"",
+    "lint:check": "eslint \"src/**/*.{js,ts,tsx}\"",
+    "verify": "npm format:check && npm lint:check && npm test",
+    "test": "jest",
+    "test:watch": "yarn test --watch",
+    "prepare": "rimraf build && yarn build"
+  },
+  "files": [
+    "build"
+  ],
+  "author": "luke.john",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node14": "^1.0.0",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "serialize-error": "^7.0.1"
+  }
+}

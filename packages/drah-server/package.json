@@ -1,0 +1,32 @@
+{
+  "name": "drah-server",
+  "version": "0.0.0",
+  "description": "executes functions that have been called by an external environment",
+  "main": "build/DrahServer.js",
+  "scripts": {
+    "typecheck": "tsc -p . --noEmit",
+    "build": "tsc -p ./tsconfig.json",
+    "build:watch": "npm run build -- --watch",
+    "format:check": "prettier --check \"src/**/*.{ts, tsx}\"",
+    "lint:check": "eslint \"src/**/*.{js,ts,tsx}\"",
+    "verify": "npm format:check && npm lint:check && npm test",
+    "test": "jest",
+    "test:watch": "yarn test --watch",
+    "prepare": "rimraf build && yarn build"
+  },
+  "files": [
+    "build"
+  ],
+  "author": "luke.john",
+  "license": "ISC",
+  "dependencies": {
+    "drah-shared": "../drah-shared"
+  },
+  "devDependencies": {
+    "@tsconfig/node14": "^1.0.0",
+    "@types/jest": "^26.0.15",
+    "jest": "^26.6.1",
+    "ts-jest": "^26.4.2",
+    "typescript": "^4.0.3"
+  }
+}

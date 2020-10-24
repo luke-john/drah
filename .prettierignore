@@ -1,0 +1,8 @@
+node_modules
+**/package.json
+
+# While by default prettier does not run on css/scss files, the vscode extension
+# enables it for the following languages
+# "css","graphql","html","javascript","javascriptreact","json","json5","jsonc","less","markdown","mdx","mongo","postcss","scss","typescript","typescriptreact","vue","yaml"
+**/*.css
+**/*.scss
