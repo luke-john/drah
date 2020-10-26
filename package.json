@@ -12,7 +12,10 @@
     "bootstrap": "npm exec lerna bootstrap",
     "/// about add-changeset": "Will ask you about changes, and create changeset files for desired packages",
     "//// docs:add-changeset": "https://github.com/atlassian/changesets/blob/master/packages/cli/README.md#add",
-    "add-changeset": "npm exec changeset"
+    "add-changeset": "npm exec changeset",
+    "/// about release": "Releases packages to npm, intended to be run by continous delivery github workflow action",
+    "//// docs:release": "https://github.com/atlassian/changesets/blob/master/packages/cli/README.md#publish",
+    "release": "npm exec lerna run prepare && npm exec changeset publish"
   },
   "author": "luke.john",
   "license": "ISC",

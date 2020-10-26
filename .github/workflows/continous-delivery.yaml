@@ -29,6 +29,6 @@ jobs:
           or create pull request with new versions if changesets detected
         uses: changesets/action@master
         with:
-          publish: npm exec lerna prepare && npm run changeset publish
+          publish: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
