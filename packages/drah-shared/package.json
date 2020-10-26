@@ -1,6 +1,6 @@
 {
     "name": "drah-shared",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "shared types for use in drahs packages",
     "main": "build/index.js",
     "scripts": {
