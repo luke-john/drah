@@ -3,8 +3,8 @@
     "version": "0.1.1",
     "description": "enables running functions in an external environment",
     "main": "build/DrahClient.js",
-    "directories": {
-        "test": "test"
+    "publishConfig": {
+        "access": "public"
     },
     "scripts": {
         "typecheck": "tsc -p . --noEmit",
@@ -15,10 +15,11 @@
         "verify": "npm format:check && npm lint:check && npm test",
         "test": "jest",
         "test:watch": "yarn test --watch",
-        "// about prepare:ci": "the tool we use for publishing (changeset) currently runs publishes in parallel",
-        "// about prepare:ci ": "to work around this, we run the prepare step in isolation from the npm publish",
-        "prepare:cd": "rimraf build && yarn build"
+        "prepare": "rimraf build && yarn build"
     },
+    "files": [
+        "build"
+    ],
     "author": "luke.john",
     "license": "ISC",
     "dependencies": {

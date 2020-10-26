@@ -14,8 +14,9 @@
     "//// docs:add-changeset": "https://github.com/atlassian/changesets/blob/master/packages/cli/README.md#add",
     "add-changeset": "npm exec changeset",
     "/// about release": "Releases packages to npm, intended to be run by continous delivery github workflow action",
-    "//// docs:release": "https://github.com/atlassian/changesets/blob/master/packages/cli/README.md#publish",
-    "release": "npm exec lerna run prepare && npm exec changeset publish"
+    "//// docs:release": "We use lerna instead of changeset due to changesets running all release in parallel by default which results in build errors",
+    "//// tracking issue": "There is an open issue for topological publish order which would resolve this https://github.com/atlassian/changesets/issues/238",
+    "release": "npm exec lerna publish"
   },
   "author": "luke.john",
   "license": "ISC",
