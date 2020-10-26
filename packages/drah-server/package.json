@@ -3,6 +3,9 @@
     "version": "0.1.1",
     "description": "executes functions that have been called by an external environment",
     "main": "build/DrahServer.js",
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "typecheck": "tsc -p . --noEmit",
         "build": "tsc -p ./tsconfig.json",

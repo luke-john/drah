@@ -3,6 +3,9 @@
     "version": "0.1.1",
     "description": "shared types for use in drahs packages",
     "main": "build/index.js",
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "typecheck": "tsc -p . --noEmit",
         "build": "tsc -p ./tsconfig.json",
