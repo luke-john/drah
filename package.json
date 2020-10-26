@@ -4,7 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:all": "npm run test && npm exec lerna run test",
+    "build": "npm exec lerna run build",
+    "/// about bootstrap": "Installs all packages dependencies and links any cross-dependencies.",
+    "//// docs:bootstrap": "https://github.com/lerna/lerna/tree/master/commands/bootstrap",
+    "bootstrap": "npm exec lerna bootstrap",
+    "/// about add-changeset": "Will ask you about changes, and create changeset files for desired packages",
+    "//// docs:add-changeset": "https://github.com/atlassian/changesets/blob/master/packages/cli/README.md#add",
+    "add-changeset": "npm exec changeset"
   },
   "author": "luke.john",
   "license": "ISC",
