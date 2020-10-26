@@ -1,4 +1,4 @@
-name: Release
+name: Continous Delivery
 
 on:
   push:
@@ -24,7 +24,11 @@ jobs:
       - name: Install Dependencies
         run: npm install && npm run bootstrap
 
-      - name: Create Release Pull Request
+      - name: >
+          Releases packages if new versions detected
+          or create pull request with new versions if changesets detected
         uses: changesets/action@master
+        with:
+          publish: npm exec lerna prepare && npm run changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
