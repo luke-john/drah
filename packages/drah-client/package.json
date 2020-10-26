@@ -19,6 +19,9 @@
         "// about prepare:ci ": "to work around this, we run the prepare step in isolation from the npm publish",
         "prepare:cd": "rimraf build && yarn build"
     },
+    "files": [
+        "build"
+    ],
     "author": "luke.john",
     "license": "ISC",
     "dependencies": {
