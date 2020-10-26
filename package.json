@@ -14,9 +14,11 @@
     "//// docs:add-changeset": "https://github.com/atlassian/changesets/blob/master/packages/cli/README.md#add",
     "add-changeset": "npm exec changeset",
     "/// about release": "Releases packages to npm, intended to be run by continous delivery github workflow action",
-    "//// docs:release": "We use lerna instead of changeset due to changesets running all release in parallel by default which results in build errors",
-    "//// tracking issue": "There is an open issue for topological publish order which would resolve this https://github.com/atlassian/changesets/issues/238",
-    "release": "npm exec lerna publish"
+    "//// notes.  ": "There is a possible race issue with this command due to changesets running all releases in parallel rather than topologically",
+    "//// notes.. ": "This means there is a possibility that the drah-shared types are not available in time for the client and server builds",
+    "//// notes...": "As a workaround, we don't clear the build folder on prepare, assuming it is running in ci. And then run the prepare via lerna pre publish",
+    "//// tracking issue": "https://github.com/atlassian/changesets/issues/238",
+    "release": "npm exec lerna run prepare && npm exec changeset publish"
   },
   "author": "luke.john",
   "license": "ISC",
