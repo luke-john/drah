@@ -27,26 +27,31 @@ export class DrahServer<ActionHandlers extends _ActionHandlers> {
     }
 
     async receiveFromClient(serialisedData: string) {
-        const { type, messageId, options } = deserializeData(serialisedData);
-
         try {
-            // if the handler is not an async function,
-            // calling it in Promise.resolve will result in the error being resolved
-            const handlerOutcome = this.handlers[type](options);
 
-            const response = await Promise.resolve(handlerOutcome);
-
-            const serializedResponse = serializeData({ messageId, response });
-
-            this.sendToClient(serializedResponse);
-        } catch (error) {
-            // if the handler was not an async function, then this will be hit immediately.
-            // this causes issues for tests, but could also cause issues for clients who assume
-            // processing is always an asyncronous operation
-            await new Promise((resolve) => resolve());
-            const serializedErrorResponse = serializeData({ messageId, error: serializeError(error) });
-
-            this.sendToClient(serializedErrorResponse);
+            const { type, messageId, handlerParameters = [] } = deserializeData(serialisedData);
+            
+            try {
+                // if the handler is not an async function,
+                // calling it in Promise.resolve will result in the error being resolved
+                const handlerOutcome = this.handlers[type](...handlerParameters);
+                
+                const response = await Promise.resolve(handlerOutcome);
+                
+                const serializedResponse = serializeData({ messageId, response });
+                
+                this.sendToClient(serializedResponse);
+            } catch (error) {
+                // if the handler was not an async function, then this will be hit immediately.
+                // this causes issues for tests, but could also cause issues for clients who assume
+                // processing is always an asyncronous operation
+                await new Promise<void>((resolve) => resolve());
+                const serializedErrorResponse = serializeData({ messageId, error: serializeError(error) });
+                
+                this.sendToClient(serializedErrorResponse);
+            }
+        } catch (err) {
+            console.error("failed to deserialize data", err)
         }
     }
 }

@@ -35,13 +35,13 @@ export class DrahClient<ActionHandlers extends _ActionHandlers> {
         });
     }
 
-    async process<Key extends keyof ActionHandlers>(type: Key, options: Parameters<ActionHandlers[Key]>[0]): Promise<Unwrap<ReturnType<ActionHandlers[Key]>>> {
+    async process<Key extends keyof ActionHandlers>(type: Key, ...handlerParameters: Parameters<ActionHandlers[Key]>): Promise<Unwrap<ReturnType<ActionHandlers[Key]>>> {
         const messageId = `ui-msg-${this.messageIdCount++}`;
 
         const data = {
             type,
             messageId,
-            options: options,
+            handlerParameters: handlerParameters,
         };
 
         const serializedData = serializeData(data);
@@ -64,3 +64,30 @@ export class DrahClient<ActionHandlers extends _ActionHandlers> {
 }
 
 type Unwrap<T> = T extends Promise<infer U> ? U : T extends (...args: any) => Promise<infer U> ? U : T extends (...args: any) => infer U ? U : T;
+
+
+// This allows arbitrary class methods to be called, and means handlers
+// can be called as if they were methods on the class
+// ie. drahClient.handlerName(...handlerArguments)
+export function getRichDrahClient<ActionHandlers extends _ActionHandlers>(...options: ConstructorParameters<typeof DrahClient>) {
+    const simpleDrahClient = new DrahClient<ActionHandlers>(...options);
+    const typeCoercedSimpleDrahClient = simpleDrahClient as typeof simpleDrahClient & ActionHandlers
+
+    return new Proxy(typeCoercedSimpleDrahClient, {
+        get: function(target, property) {
+            
+            if (property in target) {
+                // @ts-ignore
+                return target[property]
+            }
+
+            function process(...args: any) {
+                // @ts-ignore
+                return target.process(property, ...args)
+            }
+
+            return process
+
+        }
+    });
+}

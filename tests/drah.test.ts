@@ -1,4 +1,4 @@
-import { DrahClient } from '../packages/drah-client/src/DrahClient';
+import { getRichDrahClient } from '../packages/drah-client/src/DrahClient';
 import { DrahServer } from '../packages/drah-server/src/DrahServer';
 
 describe('drah client and server', () => {
@@ -15,15 +15,19 @@ describe('drah client and server', () => {
     const handlers = {
         doubleSync: (count: number) => count * 2,
         doubleAsync: async (count: number) => {
-            await new Promise((resolve) => resolve());
+            await new Promise<void>((resolve) => resolve());
             return count * 2;
         },
         failSync: (options: undefined) => {
             throw testError;
         },
         failAsync: async (options: undefined) => {
-            await new Promise((resolve) => resolve());
+            await new Promise<void>((resolve) => resolve());
             throw testError;
+        },
+        multipleArguments: async (message: string, count: number) => {
+            await new Promise<void>((resolve) => resolve());
+            return `${message}: ${count}`;
         },
     };
     const processor = new DrahServer({
@@ -32,7 +36,7 @@ describe('drah client and server', () => {
             environmentConnectors.respondToClient!(serializedData);
         },
     });
-    const client = new DrahClient<typeof handlers>({
+    const client = getRichDrahClient<typeof handlers>({
         sendToServer: (serializedData) => {
             environmentConnectors.sendToServer!(serializedData);
         },
@@ -64,5 +68,11 @@ describe('drah client and server', () => {
 
     test('Client throws an when an "async" processor handler throws', async () => {
         expect(client.process('failAsync', undefined)).rejects.toThrow(testError.message);
+    });
+
+    test('Client can call actions directly', async () => {
+        const result = await client.doubleAsync(21);
+
+        expect(result).toBe(42);
     });
 });

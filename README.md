@@ -54,7 +54,31 @@ The **client environment** requires:
 
 2. The `DrahClient` configured to receive responses from the processor (via class method `receiveFromServer`)
 
-#### Example
+#### Example 1. DrahClient
+
+note: this example contains the following two placeholder functions that you need to implement.
+
+-   sendMessageToServer: function which sends messsages to the server environment
+-   onMessagefromServer: subscription which fires it's callback on messages from a server environment
+
+```ts
+import { DrahClient } from 'drah-client';
+
+const drahClient = new DrahClient<ActionProcessorHandlers>({
+    sendToServer: (serializedData) => sendMessageToServer(serializedData),
+});
+onMessagefromServer((message: string) => drahClient.receiveFromServer(event.data));
+
+const answer = await drahClient.process('getAnswer', {
+    answerFor: 'Ultimate Question of Life, the Universe, and Everything',
+});
+// answer will be 42
+```
+
+#### Example 2. getRichDrahClient
+
+The getRichDrahClient returns a DrahClient instance with a proxy setup to allow calling handlers
+directly on the drahClient.
 
 note: this example contains the following two placeholder functions that you need to implement.
 
