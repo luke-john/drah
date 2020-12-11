@@ -1,6 +1,6 @@
 {
     "name": "drah-client",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "description": "enables running functions in an external environment",
     "main": "build/DrahClient.js",
     "publishConfig": {
@@ -23,7 +23,7 @@
     "author": "luke.john",
     "license": "ISC",
     "dependencies": {
-        "drah-shared": "0.1.1"
+        "drah-shared": "0.2.0"
     },
     "devDependencies": {
         "@tsconfig/node14": "^1.0.0",
