@@ -71,7 +71,9 @@ type Unwrap<T> = T extends Promise<infer U> ? U : T extends (...args: any) => Pr
 // ie. drahClient.handlerName(...handlerArguments)
 export function getRichDrahClient<ActionHandlers extends _ActionHandlers>(...options: ConstructorParameters<typeof DrahClient>) {
     const simpleDrahClient = new DrahClient<ActionHandlers>(...options);
-    const typeCoercedSimpleDrahClient = simpleDrahClient as typeof simpleDrahClient & ActionHandlers
+    const typeCoercedSimpleDrahClient = simpleDrahClient as typeof simpleDrahClient & {
+        [Key in keyof ActionHandlers]: (...handlerParameters: Parameters<ActionHandlers[Key]>) => Promise<Unwrap<ReturnType<ActionHandlers[Key]>>>
+    }
 
     return new Proxy(typeCoercedSimpleDrahClient, {
         get: function(target, property) {
