@@ -17,7 +17,7 @@ export function serializeData(data: any) {
 export function deserializeData(data: string) {
     const deserializedData = JSON.parse(data, (_key, value) => {
         // probably an error which has been serialized
-        if (value.name === 'Error' && value.stack !== undefined) {
+        if (value && value.name === 'Error' && value.stack !== undefined) {
             return deserializeError(value);
         }
 
