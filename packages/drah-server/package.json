@@ -1,6 +1,6 @@
 {
     "name": "drah-server",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "description": "executes functions that have been called by an external environment",
     "main": "build/DrahServer.js",
     "publishConfig": {
@@ -23,7 +23,7 @@
     "author": "luke.john",
     "license": "ISC",
     "dependencies": {
-        "drah-shared": "0.1.1"
+        "drah-shared": "0.2.0"
     },
     "devDependencies": {
         "@tsconfig/node14": "^1.0.0",

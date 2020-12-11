@@ -1,5 +1,16 @@
 # drah-server
 
+## 0.2.0
+
+### Minor Changes
+
+-   685da31: Support calling actions directly and allow multiple arguments
+
+### Patch Changes
+
+-   Updated dependencies [685da31]
+    -   drah-shared@0.2.0
+
 ## 0.1.1
 
 ### Patch Changes
