@@ -1,5 +1,11 @@
 # drah-client
 
+## 0.2.1
+
+### Patch Changes
+
+-   a3a4840: Fix rich drah client methods type to be async
+
 ## 0.2.0
 
 ### Minor Changes
