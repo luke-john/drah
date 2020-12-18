@@ -2,6 +2,72 @@
 
 drah allows you to write functions that are run in another environment with minimal setup.
 
+Initially developed to aid development of internal figma plugins at Bumble.
+
+From a development side, it means you can execute a function that is written in another environment. It's also got great typescript support.
+
+## Example usage with figma
+
+This example shows setting a server and client to allow the ui to use functions in the main.
+
+In practice we have an additional server and client which allows the main to use functions in the ui, it's much the same, but with the figma message apis switched.
+
+### Setup server in main
+
+```ts
+// file in main
+
+function getCurrentPageName() {
+    const nodes = figma.currentPage.name;
+}
+
+export const mainDrahServer = new DrahServer({
+    handlers: {
+        getCurrentPageName,
+    },
+    sendToClient: (message: string) => {
+        figma.ui.postMessage({
+            type: 'from-main-drah-server',
+            data: message,
+        });
+    },
+});
+
+export type MainDrahServerActions = ExtractActionsFromServer<typeof mainDrahServer>;
+
+figma.ui.onmessage = async function handleMessage(pluginMessage) {
+    if (pluginMessage.type === 'from-main-drah-client') {
+        mainDrahServer.receiveFromClient(pluginMessage.data);
+    }
+};
+```
+
+### Setup server in ui
+
+```ts
+// file in ui
+import type { MainDrahServerActions } from ' ..path to main drah server.. '
+
+export const mainDrahClient = getRichDrahClient<MainDrahServerActions>({
+    sendToServer: (serializedData) => window.parent.postMessage({ pluginMessage: { type: 'from-main-drah-client', data: serializedData } }, '*'),
+});
+
+window.onmessage = async (event: MessageEvent<any>) => {
+    if (event.data.pluginMessage.type === 'from-main-drah-server') {
+        mainDrahClient.receiveFromServer(event.data.pluginMessage.data);
+    }
+};
+```
+
+### Call functions that are in main from ui code
+
+```ts
+// any file in ui
+async function demo () => {
+    const currentPageName = await mainDrahClient.getCurrentPageName();
+};
+```
+
 ## Packages
 
 -   [drah-client](#drah-client): package which provides the mechanism to run functions on the server.
