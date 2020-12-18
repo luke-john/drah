@@ -18,7 +18,8 @@ In practice we have an additional server and client which allows the main to use
 // file in main
 
 function getCurrentPageName() {
-    const nodes = figma.currentPage.name;
+    const name = figma.currentPage.name;
+    return name;
 }
 
 export const mainDrahServer = new DrahServer({
@@ -63,7 +64,7 @@ window.onmessage = async (event: MessageEvent<any>) => {
 
 ```ts
 // any file in ui
-async function demo () => {
+async function demo () {
     const currentPageName = await mainDrahClient.getCurrentPageName();
 };
 ```
