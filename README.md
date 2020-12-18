@@ -42,7 +42,7 @@ figma.ui.onmessage = async function handleMessage(pluginMessage) {
 };
 ```
 
-### Setup server in ui
+### Setup client in ui
 
 ```ts
 // file in ui
