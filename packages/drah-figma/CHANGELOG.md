@@ -1,5 +1,11 @@
 # drah-figma
 
+## 0.4.0
+
+### Minor Changes
+
+-   remove unrequired type from drah clients
+
 ## 0.3.0
 
 ### Minor Changes

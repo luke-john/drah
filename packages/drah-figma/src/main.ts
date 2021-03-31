@@ -9,7 +9,7 @@ export function setupDrahMain<
 >(handlers: MainActionHandlers): {
     drahUiClient: {
         [Key in keyof UIActionHandlers]: (...handlerParameters: Parameters<UIActionHandlers[Key]>) => Promise<Unwrap<ReturnType<UIActionHandlers[Key]>>>
-    } & {receiveFromServer: (message: string) => void}
+    }
 } {
     const drahUiClient = getRichDrahClient<UIActionHandlers>({
         sendToServer: (serializedData) => {
