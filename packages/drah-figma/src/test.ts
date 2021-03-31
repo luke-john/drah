@@ -1,5 +1,5 @@
 import { setupDrahMain } from './main';
-import { setupDrahUi } from './ui';
+import { setupDrahUI } from './ui';
 
 global.window = {
     // @ts-ignore
@@ -53,12 +53,12 @@ describe('Figma drah main and ui communicate', () => {
         },
     };
 
-    const drahUi = setupDrahUi<typeof _mainActions>(_uiActions);
+    const drahUI = setupDrahUI<typeof _mainActions>(_uiActions);
 
     test('drah main actions pass through data', async () => {
-        const dataRecivedOnUi = await drahMain.testDataRetrieval();
+        const dataRecivedOnUI = await drahMain.testDataRetrieval();
 
-        expect(dataRecivedOnUi).toBe(uiData);
+        expect(dataRecivedOnUI).toBe(uiData);
     });
 
     test('drah main actions proxy through errors', async () => {
@@ -72,16 +72,16 @@ describe('Figma drah main and ui communicate', () => {
     });
 
     test('drah ui actions pass through data', async () => {
-        const dataRecivedOnUi = await drahUi.testDataRetrieval();
+        const dataRecivedOnUI = await drahUI.testDataRetrieval();
 
-        expect(dataRecivedOnUi).toBe(mainData);
+        expect(dataRecivedOnUI).toBe(mainData);
     });
 
     test('drah uimain actions proxy through errors', async () => {
         expect.assertions(1);
 
         try {
-            await drahUi.testFailureProxying();
+            await drahUI.testFailureProxying();
         } catch (error) {
             expect(error).toEqual(mainFailure);
         }

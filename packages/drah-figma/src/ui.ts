@@ -2,7 +2,7 @@ import type { _ActionHandlers } from 'drah-shared';
 import { getRichDrahClient } from 'drah-client';
 import { DrahServer } from 'drah-server';
 
-export function setupDrahUi<
+export function setupDrahUI<
     MainActionHandlers extends _ActionHandlers, UIActionHandlers extends _ActionHandlers = _ActionHandlers
 >(handlers: UIActionHandlers) {
     const drahMainClient = getRichDrahClient<MainActionHandlers>({

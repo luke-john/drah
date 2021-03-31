@@ -1,10 +1,22 @@
 {
     "name": "drah-figma",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Simplified communications between ui and main for figma plugins",
     "exports": {
-        "main": "./build/ui.js",
-        "ui": "./build/main.js"
+        "main": "./build/main.js",
+        "ui": "./build/ui.js"
+    },
+    "//.": "The typesVersions is a workaround for typescript not supporting the exports field",
+    "// ": "https://github.com/microsoft/TypeScript/issues/33079#issuecomment-773417113",
+    "typesVersions": {
+        "*": {
+            "main": [
+                "build/main"
+            ],
+            "ui": [
+                "build/ui"
+            ]
+        }
     },
     "publishConfig": {
         "access": "public"

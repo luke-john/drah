@@ -6,7 +6,7 @@ Simplified communications between ui and main for figma plugin development.
 
 ```ts
 // ./main/drahMain.ts
-import type { UIActions } from "../ui/drahUi.ts"
+import type { UIActions } from "../ui/drahUI.ts"
 
 const _mainActions = {
     setRootPluginData: (...parameters: Parameters<typeof figma.root.setPluginData>) =>
@@ -19,11 +19,11 @@ export const drahMain = setupDrahMain<UIActions>(_mainActions);
 export type MainActions = typeof _mainActions
 
 // ./main/index.ts
-import drahMain from "./drahMain.ts"
+import { drahMain } from "./drahMain.ts"
 
 const googleHtml = await drahMain.getGoogleHtml()
 
-// ./ui/drahUi.ts
+// ./ui/drahUI.ts
 import type { MainActions } from "../main/drahMain.ts"
 
 const _uiActions = {
@@ -33,12 +33,12 @@ const _uiActions = {
     }
 }
 
-export const drahUi = setupDrahMain<MainActions>(_uiActions);
+export const drahUI = setupDrahUI<MainActions>(_uiActions);
 export type UIActions = typeof _uiActions
 
 // ./ui/index.ts
-import drahUi from "./drahUi.ts"
+import { drahUI } from "./drahUI.ts"
 
-await drahUi.setRootPluginData("test", "data")
-await drahUi.getRootPluginData("test")
+await drahUI.setRootPluginData("test", "data")
+await drahUI.getRootPluginData("test")
 ```
