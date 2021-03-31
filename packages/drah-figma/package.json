@@ -25,6 +25,9 @@
     ],
     "author": "luke.john",
     "license": "ISC",
+    "peerDependencies": {
+        "drah-shared": "0.2.0"
+    },
     "dependencies": {
         "drah-client": "0.2.1",
         "drah-server": "0.2.0"
