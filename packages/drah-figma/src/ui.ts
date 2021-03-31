@@ -2,9 +2,15 @@ import type { _ActionHandlers } from 'drah-shared';
 import { getRichDrahClient } from 'drah-client';
 import { DrahServer } from 'drah-server';
 
+type Unwrap<T> = T extends Promise<infer U> ? U : T extends (...args: any) => Promise<infer U> ? U : T extends (...args: any) => infer U ? U : T;
+
 export function setupDrahUI<
     MainActionHandlers extends _ActionHandlers, UIActionHandlers extends _ActionHandlers = _ActionHandlers
->(handlers: UIActionHandlers) {
+>(handlers: UIActionHandlers): {
+    drahMainClient: {
+        [Key in keyof MainActionHandlers]: (...handlerParameters: Parameters<MainActionHandlers[Key]>) => Promise<Unwrap<ReturnType<MainActionHandlers[Key]>>>
+    } & {receiveFromServer: (message: string) => void}
+} {
     const drahMainClient = getRichDrahClient<MainActionHandlers>({
         sendToServer: (serializedData) => {
             window.parent.postMessage(
@@ -47,7 +53,7 @@ export function setupDrahUI<
         }
     };
 
-    type DrahMainClient = Omit<typeof drahMainClient, 'receiveFromServer'>;
 
-    return drahMainClient as DrahMainClient;
+
+    return { drahMainClient: drahMainClient as any };
 }

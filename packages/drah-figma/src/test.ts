@@ -36,13 +36,14 @@ describe('Figma drah main and ui communicate', () => {
     const mainData = 'main cat';
     const mainFailure = new Error('main failure');
     const _mainActions = {
-        testDataRetrieval: () => mainData,
+        testDataRetrieval: (_test?: string) => mainData,
         testFailureProxying: () => {
             throw mainFailure;
         },
     };
+    type MainActions = typeof _mainActions;
 
-    const drahMain = setupDrahMain<typeof _uiActions>(_mainActions);
+    const { drahUiClient } = setupDrahMain<UIActions>(_mainActions);
 
     const uiData = 'ui cat';
     const uiFailure = new Error('ui failure');
@@ -52,11 +53,12 @@ describe('Figma drah main and ui communicate', () => {
             throw uiFailure;
         },
     };
+    type UIActions = typeof _mainActions;
 
-    const drahUI = setupDrahUI<typeof _mainActions>(_uiActions);
+    const { drahMainClient } = setupDrahUI<MainActions>(_uiActions);
 
     test('drah main actions pass through data', async () => {
-        const dataRecivedOnUI = await drahMain.testDataRetrieval();
+        const dataRecivedOnUI = await drahUiClient.testDataRetrieval();
 
         expect(dataRecivedOnUI).toBe(uiData);
     });
@@ -65,23 +67,23 @@ describe('Figma drah main and ui communicate', () => {
         expect.assertions(1);
 
         try {
-            await drahMain.testFailureProxying();
+            await drahUiClient.testFailureProxying();
         } catch (error) {
             expect(error).toEqual(uiFailure);
         }
     });
 
     test('drah ui actions pass through data', async () => {
-        const dataRecivedOnUI = await drahUI.testDataRetrieval();
+        const dataRecivedOnUI = await drahMainClient.testDataRetrieval();
 
         expect(dataRecivedOnUI).toBe(mainData);
     });
 
-    test('drah uimain actions proxy through errors', async () => {
+    test('drah ui actions proxy through errors', async () => {
         expect.assertions(1);
 
         try {
-            await drahUI.testFailureProxying();
+            await drahMainClient.testFailureProxying();
         } catch (error) {
             expect(error).toEqual(mainFailure);
         }
