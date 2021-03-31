@@ -2,8 +2,6 @@
 
 drah allows you to write functions that are run in another environment with minimal setup.
 
-Initially developed to aid development of internal figma plugins at Bumble.
-
 From a development side, it means you can execute a function that is written in another environment. It's also got great typescript support.
 
 ## Example usage with figma
@@ -64,9 +62,9 @@ window.onmessage = async (event: MessageEvent<any>) => {
 
 ```ts
 // any file in ui
-async function demo () {
+async function demo() {
     const currentPageName = await mainDrahClient.getCurrentPageName();
-};
+}
 ```
 
 ## Packages
